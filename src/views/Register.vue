@@ -1,5 +1,4 @@
 <template>
-  <div>Register page</div>
   <div class="container page">
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">

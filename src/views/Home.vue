@@ -1,6 +1,7 @@
 <template>
   <div>
     <p class="text-xs-center">
+      Home page
       <router-link :to="{name: 'login'}">Sign In</router-link>
     </p>
     <p class="text-xs-center">

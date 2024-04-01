@@ -1,16 +1,17 @@
 <template>
-  <div>Hello</div>
+  <app-header></app-header>
   <router-view></router-view>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+import AppHeader from '@/components/Header.vue';
 
-// export default {
-//   name: 'App',
-//   components: {
-//   }
-// }
+export default {
+  name: 'App',
+  components: {
+    AppHeader,
+  },
+};
 </script>
 
 <style>
@@ -18,8 +19,15 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px 100px;
+}
+
+a {
+  text-decoration: none !important;
+  color: #514f4f !important;
+}
+
+a:hover, .active {
+  color: #42b983 !important;
 }
 </style>
