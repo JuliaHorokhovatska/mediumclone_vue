@@ -86,7 +86,15 @@ const actions = {
   },
 };
 
-const getters = {};
+export const gettersTypes = {
+  isAuth: '[auth] isAuth',
+  user: '[auth] user',
+}
+
+const getters = {
+  [gettersTypes.isAuth]: state => Boolean(state.user),
+  [gettersTypes.user]: state => state.user,
+};
 
 export default {
   state,

@@ -18,8 +18,10 @@
         <div class="d-flex">
           <div class="profile">
             <router-link :to="{name: 'home', params: {slug: user.username}}" active-class="active">
-              <img :src="user.image" alt="avatar" class="profile__avatar" />
-              <p class="profile__name ms-2">{{ user.username }}</p>
+              <div class="d-flex">
+                <img :src="user.image" alt="avatar" class="profile__avatar" />
+                <p class="profile__name ms-2">{{ user.username }}</p>
+              </div>
             </router-link>
           </div>
           <div class="ms-2">
@@ -32,13 +34,14 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {gettersTypes} from '@/store/modules/auth';
+import {mapGetters} from 'vuex';
 
 export default {
   name: 'AppHeader',
   computed: {
-    ...mapState({
-      user: (state) => state.auth.user,
+    ...mapGetters({
+      user: gettersTypes.user,
     }),
   },
 };
