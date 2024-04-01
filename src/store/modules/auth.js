@@ -8,35 +8,45 @@ const state = {
   registerErrors: null,
 };
 
+export const mutationsTypes = {
+  registerStart: '[auth] registerStart',
+  registerSuccess: '[auth] registerSuccess',
+  registerFailed: '[auth] registerFailed',
+};
+
 const mutations = {
-  registrationStart(state) {
+  [mutationsTypes.registerStart](state) {
     state.authProgress = progress.inProgress;
     state.registerErrors = null;
   },
-  registrationSuccess(state, userData) {
+  [mutationsTypes.registerSuccess](state, userData) {
     state.authProgress = progress.success;
     state.user = userData;
   },
-  registrationFailed(state, error) {
+  [mutationsTypes.registerFailed](state, error) {
     state.authProgress = progress.failed;
     state.registerErrors = error;
   },
 };
 
+export const actionTypes = {
+  register: '[auth] register',
+};
+
 const actions = {
-  register(context, formData) {
-    context.commit('registrationStart');
+  [actionTypes.register](context, formData) {
+    context.commit(mutationsTypes.registerStart);
     return new Promise(resolve => {
       authApi
       .register(formData)
       .then(response => {
         const userData = response?.data?.user;
-        context.commit('registrationSuccess', userData);
+        context.commit(mutationsTypes.registerSuccess, userData);
         setItem('accessToken', userData?.token);
         resolve(userData);
       })
       .catch(response => {
-        context.commit('registrationFailed', response?.response?.data?.errors);
+        context.commit(mutationsTypes.registerFailed, response?.response?.data?.errors);
       });
     }) 
   },

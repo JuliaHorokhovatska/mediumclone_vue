@@ -49,6 +49,7 @@
 <script>
 import {progress} from '@/core';
 import {mapActions} from 'vuex';
+import {actionTypes} from '@/store/modules/auth';
 
 export default {
   name: 'AppRegister',
@@ -73,13 +74,15 @@ export default {
     ...mapActions(['register']),
 
     onSubmit() {
-      this.register({
-        email: this.email,
-        password: this.password,
-        username: this.username,
-      }).then(() => {
-        this.$router.push({name: 'home'});
-      });
+      this.$store
+        .dispatch(actionTypes.register, {
+          email: this.email,
+          password: this.password,
+          username: this.username,
+        })
+        .then(() => {
+          this.$router.push({name: 'home'});
+        });
     },
   },
   props: {
