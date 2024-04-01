@@ -5,12 +5,16 @@
 
 <script>
 import AppHeader from '@/components/Header.vue';
+import {actionTypes} from '@/store/modules/auth';
 
 export default {
   name: 'App',
   components: {
     AppHeader,
   },
+  mounted(){
+    this.$store.dispatch(actionTypes.getUser);
+  }
 };
 </script>
 

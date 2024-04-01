@@ -4,6 +4,7 @@ import {setItem} from '@/helpers/persistanceStorage';
 
 const state = {
   user: null,
+  getUserProgress: progress.noInitializeted,
   authProgress: progress.noInitializeted,
   loginProgress: progress.noInitializeted,
   registerErrors: null,
@@ -11,6 +12,9 @@ const state = {
 };
 
 export const mutationsTypes = {
+  getUserStart: '[auth] getUserStart',
+  getUserSuccess: '[auth] getUserSuccess',
+  getUserFailed: '[auth] getUserFailed',
   registerStart: '[auth] registerStart',
   registerSuccess: '[auth] registerSuccess',
   registerFailed: '[auth] registerFailed',
@@ -20,6 +24,16 @@ export const mutationsTypes = {
 };
 
 const mutations = {
+  [mutationsTypes.getUserStart](state) {
+    state.getUserProgress = progress.inProgress;
+  },
+  [mutationsTypes.getUserSuccess](state, userData) {
+    state.getUserProgress = progress.success;
+    state.user = userData;
+  },
+  [mutationsTypes.getUserFailed](state) {
+    state.getUserProgress = progress.failed;
+  },
   [mutationsTypes.registerStart](state) {
     state.authProgress = progress.inProgress;
     state.registerErrors = null;
@@ -47,11 +61,27 @@ const mutations = {
 };
 
 export const actionTypes = {
+  getUser: '[auth] getUser',
   register: '[auth] register',
   login: '[auth] login',
 };
 
 const actions = {
+  [actionTypes.getUser](context) {
+    context.commit(mutationsTypes.getUserStart);
+    return new Promise(resolve => {
+      authApi
+      .getCurrentUser()
+      .then(response => {
+        const userData = response?.data?.user;
+        context.commit(mutationsTypes.getUserSuccess, userData);
+        resolve(userData);
+      })
+      .catch(() => {
+        context.commit(mutationsTypes.getUserFailed);
+      });
+    }) 
+  },
   [actionTypes.register](context, formData) {
     context.commit(mutationsTypes.registerStart);
     return new Promise(resolve => {
