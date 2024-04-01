@@ -5,7 +5,7 @@
       <div class="col-md-6 offset-md-3 col-xs-12">
         <h1 class="text-xs-center">Sign Up</h1>
         <p class="text-xs-center">
-          <router-link :to="{name: 'login'}">Login page</router-link>
+          <router-link :to="{name: 'login'}">Sign In</router-link>
         </p>
         <form @submit.prevent="onSubmit">
           <fieldset class="form-group">
@@ -48,7 +48,7 @@
 
 <script>
 import {progress} from '@/core';
-import {mapActions} from 'vuex';
+import {mapState} from 'vuex';
 import {actionTypes} from '@/store/modules/auth';
 
 export default {
@@ -63,16 +63,14 @@ export default {
     };
   },
   computed: {
-    isAuthProgress() {
-      return this.$store.state.auth.authProgress;
-    },
+    ...mapState({
+      isAuthProgress: state => state.auth.authProgress,
+    }),
     progress() {
       return progress;
     },
   },
   methods: {
-    ...mapActions(['register']),
-
     onSubmit() {
       this.$store
         .dispatch(actionTypes.register, {
